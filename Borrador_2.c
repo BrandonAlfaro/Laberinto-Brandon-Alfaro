@@ -28,7 +28,6 @@ int dimensiona_la_matriz()
         if ((caracter == '0' || caracter == '1' || caracter == '2') && maximo_columnas == 0) // Agrega una columna si el caracter es 0, 1 o 2
         {
             cantidad_columnas++;
-
         }
         else if (caracter == '\n') // Agrega una fila cuando se llega a un salto de linea
         {
