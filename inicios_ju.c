@@ -14,6 +14,7 @@ void busca_inicios_laberinto(int *arreglo, int c_F, int c_C)
         if (*arreglo == 1)
         {
             
+            arreglo++;
         }
         else
         {
