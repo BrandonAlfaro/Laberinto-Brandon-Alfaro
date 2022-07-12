@@ -4,7 +4,7 @@
 
 int C_Inicios = 0;
 
-void cantidad_inicios(int *arreglo, int C_F,int C_C)
+void cantidad_inicios(int *arreglo, int C_F,int C_C,int *c_inicios)
 {
     int C_Inicios = 0;
     for (int i = 0; i < C_C; i++) // Fila superior
@@ -12,14 +12,13 @@ void cantidad_inicios(int *arreglo, int C_F,int C_C)
         if (*arreglo == 1)
         {
             C_Inicios++;
-            arreglo++;
         }
-        
+        arreglo++;
     }
     
-    arreglo++;
-    for (int i = 0; i < C_F-1; i++) // Columna derecha e izquierda
+    for (int i = 0; i < C_F-2; i++) // Columna derecha e izquierda
     {
+        // printf("\nValor que ocupo: %i",*arreglo);
         if (*arreglo == 1)
         {
             C_Inicios++;
@@ -27,6 +26,7 @@ void cantidad_inicios(int *arreglo, int C_F,int C_C)
 
         arreglo += (C_C-1);
 
+        // printf("\nValor que ocupo: %i",*arreglo);
         if (*arreglo == 1)
         {
             C_Inicios++;
@@ -40,10 +40,12 @@ void cantidad_inicios(int *arreglo, int C_F,int C_C)
         if (*arreglo == 1)
         {
             C_Inicios++;
-            arreglo++;
         }
-        
+        arreglo++;
     }
+    printf("Cantidad de inicios: %i",C_Inicios);
+    *c_inicios = C_Inicios;
+    printf("LO que ocupo: %i",*c_inicios);
 }
 
 void reserva_espacio_inicios(int *arreglo1,int *arreglo2)
@@ -54,30 +56,31 @@ void reserva_espacio_inicios(int *arreglo1,int *arreglo2)
 
 void posicion_inicios(int *arreglo,int *arreglo_x,int *arreglo_y, int C_F,int C_C)
 {
-    int C_Inicios = 0;
     int indice_x = 0;
     int indice_y = 0;
     for (int i = 0; i < C_C; i++) // Fila superior
     {
         if (*arreglo == 1)
         {
-            C_Inicios++;
-            arreglo++;
             *arreglo_x = indice_x;
-            *arreglo_y = indice_y;
+            *arreglo_y = i;
+            arreglo_x++;
+            arreglo_y++;
         }
+        arreglo++;
         indice_y++;
     }
     
-    arreglo++;
-    indice_x++;
-    for (int i = 0; i < C_F-1; i++) // Columna derecha e izquierda
+    for (int i = 0; i < C_F-2; i++) // Columna derecha e izquierda
     {
+        indice_y = 0;
+        indice_x++;
         if (*arreglo == 1)
         {
-            C_Inicios++;
             *arreglo_x = indice_x;
             *arreglo_y = indice_y;
+            arreglo_x++;
+            arreglo_y++;
         }
 
         arreglo += (C_C-1);
@@ -85,24 +88,25 @@ void posicion_inicios(int *arreglo,int *arreglo_x,int *arreglo_y, int C_F,int C_
 
         if (*arreglo == 1)
         {
-            C_Inicios++;
             *arreglo_x = indice_x;
             *arreglo_y = indice_y;
+            arreglo_x++;
+            arreglo_y++;
         }
 
         arreglo++;
-        indice_x++;
     }
     
     for (int i = 0; i < C_C; i++) // Fila inferior
     {
         if (*arreglo == 1)
         {
-            C_Inicios++;
-            arreglo++;
             *arreglo_x = indice_x;
             *arreglo_y = indice_y;
+            arreglo_x++;
+            arreglo_y++;
         }
+        arreglo++;
         indice_y++;
     }
 }

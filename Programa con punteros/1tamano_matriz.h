@@ -11,7 +11,7 @@ void dimensiona_la_matriz(int *F,int *C)
 {
     FILE *archivo;
 
-    archivo = fopen("laberinto - copia.txt", "r"); //Abre el archivo
+    archivo = fopen("laberinto.txt", "r"); //Abre el archivo
 
     while (feof(archivo) == 0) //feof devuelve un 0 si aun no ha terminado de leer el archivo
     {
