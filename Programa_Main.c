@@ -2,23 +2,23 @@
 #include <stdlib.h>
 #include <string.h>
 
-int espacio_de_juego[100][100];
+// Variables Globales
+int espacio_de_juego[100][100]; // Espacio en el que se guardan los datos del laberinto
 
-int inicios[2][100];
-int indice_inicio = 0;
-int cantidad_inicios = 0;
-int solucion_encontrada = 0;
+int inicios[2][100]; // Espacio en el que se guardan los datos de la posicion de los inicios del laberinto
+int cantidad_inicios = 0; // Cantidad de inicios del laberinto
+int solucion_encontrada = 0; // Aux para identificar cuando se encontro el inicio (1 = solucion encontrada)
 
-char caracter;
-int cantidad_columnas = 0;
-int cantidad_filas = 1;
-int maximo_columnas = 0; // 0 si no se ha llegado al maximo de columnas y 1 si se llego al maximo de columnas
+int cantidad_columnas = 0; // Almacena la cantidad de columnas del laberinto
+int cantidad_filas = 1; // Almacena la cantidad de filas del laberinto
+int maximo_columnas = 0; // Aux, 0 si no se ha llegado al maximo de columnas y 1 si se llego al maximo de columnas
 
-FILE *archivo;
+FILE *archivo; // Inicializa puntero a archivo
 
-int dimensiona_la_matriz()
+void dimensiona_la_matriz()
 {
-    archivo = fopen("laberinto - copia.txt", "r"); //Abre el archivo
+    char caracter; // Guarda el caracter que se lee
+    archivo = fopen("laberinto.txt", "r"); //Abre el archivo
 
     while (feof(archivo) == 0) //feof devuelve un 0 si aun no ha terminado de leer el archivo
     {
@@ -29,7 +29,7 @@ int dimensiona_la_matriz()
         {
             cantidad_columnas++;
         }
-        else if (caracter == '\n') // Agrega una fila cuando se llega a un salto de linea
+        else if (caracter == '\n') // Agrega una fila si se llega a un salto de linea
         {
             cantidad_filas++;
             maximo_columnas = 1;
@@ -39,9 +39,10 @@ int dimensiona_la_matriz()
     fclose(archivo); //Cierra el archivo
 }
 
-int matriz_txt_a_arreglo()
+void matriz_txt_a_arreglo()
 {
-    archivo = fopen("laberinto - copia.txt", "r"); //Abre el archivo
+    char caracter;
+    archivo = fopen("laberinto.txt", "r"); //Abre el archivo
 
     cantidad_columnas = 0;
     cantidad_filas = 1;
@@ -50,7 +51,7 @@ int matriz_txt_a_arreglo()
     {
         caracter = fgetc(archivo); //fgetc lee caracter por caracter el archivo
 
-        if (caracter == '0' || caracter == '1' || caracter == '2') // Modifica el valor de la matriz
+        if (caracter == '0' || caracter == '1' || caracter == '2') // Modifica el valor de la matriz de espacio de juego y pone los valores del laberinto
         {
             cantidad_columnas++;
             
@@ -78,9 +79,12 @@ int matriz_txt_a_arreglo()
     fclose(archivo);
 } 
 
-int busca_inicios_laberinto()
+void busca_inicios_laberinto()
 {
-    for (int i = 1; i < cantidad_columnas; i++) // Fila superior
+    int indice_inicio = 0;
+
+    // Guarda en la matriz de inicios la informacion de la posicion de un inicio
+    for (int i = 1; i < cantidad_columnas; i++) // Revisa la fila superior
     {
         if (espacio_de_juego[0][i] == 1)
         {
@@ -90,7 +94,7 @@ int busca_inicios_laberinto()
             cantidad_inicios++;
         }
     }
-    for (int i = 1; i < cantidad_columnas; i++) // Fila inferior
+    for (int i = 1; i < cantidad_columnas; i++) // Revisa la fila inferior
     {
         if (espacio_de_juego[cantidad_filas - 1][i] == 1)
         {
@@ -100,7 +104,7 @@ int busca_inicios_laberinto()
             cantidad_inicios++;
         }
     }
-    for (int i = 1; i < cantidad_filas; i++) // Columna izquierda
+    for (int i = 1; i < cantidad_filas; i++) // Revisa la columna izquierda
     {
         if (espacio_de_juego[i][0] == 1)
         {
@@ -110,7 +114,7 @@ int busca_inicios_laberinto()
             cantidad_inicios++;
         }
     }
-    for (int i = 1; i < cantidad_filas; i++) // Columna derecha
+    for (int i = 1; i < cantidad_filas; i++) // Revisa la columna derecha
     {
         if (espacio_de_juego[i][cantidad_columnas - 1] == 1)
         {
@@ -120,57 +124,61 @@ int busca_inicios_laberinto()
             cantidad_inicios++;
         }
     }
-    
-    return 0;
 }
 
-int recorre_camino(int posicion_anterior_F, int posicion_anterior_C, int posicion_actual_F, int posicion_actual_C)
+void recorre_camino(int posicion_anterior_F, int posicion_anterior_C, int posicion_actual_F, int posicion_actual_C)
 {
+    // imprime la coordenadas de la posicion anterior y actual
     printf("\n%i",posicion_anterior_F);
     printf("\n%i",posicion_anterior_C);
     printf("\n%i",posicion_actual_F);
     printf("\n%i",posicion_actual_C);
     printf("\n");
-    if (espacio_de_juego[posicion_actual_F - 1][posicion_actual_C] == 1 && (posicion_actual_F - 1) >= 0 && (posicion_actual_F - 1) != posicion_anterior_F)
+
+    // Recorre camino
+    if (espacio_de_juego[posicion_actual_F - 1][posicion_actual_C] == 1 && (posicion_actual_F - 1) >= 0 && (posicion_actual_F - 1) != posicion_anterior_F) // Posicion Arriba
     {
         recorre_camino(posicion_actual_F, posicion_actual_C, posicion_actual_F - 1, posicion_actual_C);
     }
-    if (espacio_de_juego[posicion_actual_F][posicion_actual_C - 1] == 1 && (posicion_actual_C - 1) >= 0 && (posicion_actual_C - 1) != posicion_anterior_C)
+    if (espacio_de_juego[posicion_actual_F][posicion_actual_C - 1] == 1 && (posicion_actual_C - 1) >= 0 && (posicion_actual_C - 1) != posicion_anterior_C) // Posicion Izquierda
     {
         recorre_camino(posicion_actual_F, posicion_actual_C, posicion_actual_F, posicion_actual_C - 1);
     }
-    if (espacio_de_juego[posicion_actual_F + 1 ][posicion_actual_C] == 1 && (posicion_actual_F + 1) <= cantidad_filas && (posicion_actual_F + 1) != posicion_anterior_F)
+    if (espacio_de_juego[posicion_actual_F + 1 ][posicion_actual_C] == 1 && (posicion_actual_F + 1) <= cantidad_filas && (posicion_actual_F + 1) != posicion_anterior_F) //Posicion Abajo
     {
         recorre_camino(posicion_actual_F, posicion_actual_C, posicion_actual_F + 1, posicion_actual_C);
     }
-    if (espacio_de_juego[posicion_actual_F][posicion_actual_C + 1] == 1 && (posicion_actual_C + 1) <= cantidad_columnas && (posicion_actual_C + 1) != posicion_anterior_C)
+    if (espacio_de_juego[posicion_actual_F][posicion_actual_C + 1] == 1 && (posicion_actual_C + 1) <= cantidad_columnas && (posicion_actual_C + 1) != posicion_anterior_C) // Posicion Derecha
     {
         recorre_camino(posicion_actual_F, posicion_actual_C, posicion_actual_F, posicion_actual_C + 1);
     }
-    if (espacio_de_juego[posicion_actual_F + 1][posicion_actual_C] == 2 && solucion_encontrada == 0)
+
+    // Si encuentra la solucion se ejecuta algun if
+    if (espacio_de_juego[posicion_actual_F + 1][posicion_actual_C] == 2 && solucion_encontrada == 0) // Posicion Arriba
     {
         printf("\nLa solucion fue encontrada en la posicion: %i,%i", posicion_actual_F + 1, posicion_actual_C);
         solucion_encontrada = 1;
     }
-    if (espacio_de_juego[posicion_actual_F - 1][posicion_actual_C] == 2 && solucion_encontrada == 0)
+    if (espacio_de_juego[posicion_actual_F - 1][posicion_actual_C] == 2 && solucion_encontrada == 0) // Posicion Izquierda
     {
         printf("\nLa solucion fue encontrada en la posicion: %i,%i", posicion_actual_F - 1, posicion_actual_C);
         solucion_encontrada = 1;
     }
-    if (espacio_de_juego[posicion_actual_F][posicion_actual_C + 1] == 2 && solucion_encontrada == 0)
+    if (espacio_de_juego[posicion_actual_F][posicion_actual_C + 1] == 2 && solucion_encontrada == 0) //Posicion Abajo
     {
         printf("\nLa solucion fue encontrada en la posicion: %i,%i", posicion_actual_F, posicion_actual_C + 1);
         solucion_encontrada = 1;
     }
-    if (espacio_de_juego[posicion_actual_F][posicion_actual_C - 1] == 2 && solucion_encontrada == 0)
+    if (espacio_de_juego[posicion_actual_F][posicion_actual_C - 1] == 2 && solucion_encontrada == 0) // Posicion Derecha
     {
         printf("\nLa solucion fue encontrada en la posicion: %i,%i", posicion_actual_F, posicion_actual_C - 1);
         solucion_encontrada = 1;
     }
 }
 
-int empieza_recorrido_con_inicios()
+void empieza_recorrido_con_inicios()
 {
+    // Empieza el recorrido desde la posicion de los inicios
     if(cantidad_inicios > 0)
     {
         for(int i = 0; i < cantidad_inicios; i++)
@@ -178,26 +186,26 @@ int empieza_recorrido_con_inicios()
             recorre_camino(-1,-1,inicios[0][i],inicios[1][i]);
         }
     }
+    // Imprime mensaje si la solucion no fue encontrada
+    if(solucion_encontrada == 0)
+    {
+        printf("La solucion no fue encontrada");
+    }
 }
 
 int main()
 {
+    // Main ejecuta todas la funciones
+
     dimensiona_la_matriz();
     matriz_txt_a_arreglo();
     busca_inicios_laberinto();
     printf("\n%i", cantidad_inicios);
+
     for (int i = 0; i < cantidad_inicios; i++)
     {
         printf("\n%i , %i",inicios[0][i], inicios[1][i]);
     }
-    
-    // printf("\n%i, %i", cantidad_filas, cantidad_columnas);
-    // printf("\n%i", espacio_de_juego[3][7]);
-    // printf("\n%i", inicios[0][0]);
-    // printf("\n%i", inicios[1][0]);
-    // printf("\n%i", inicios[0][1]);
-    // printf("\n%i", inicios[1][1]);
     empieza_recorrido_con_inicios();
+    return 0;
 }
-
-// Probando rama

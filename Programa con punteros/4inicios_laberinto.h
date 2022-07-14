@@ -43,9 +43,9 @@ void cantidad_inicios(int *arreglo, int C_F,int C_C,int *c_inicios)
         }
         arreglo++;
     }
-    printf("Cantidad de inicios: %i",C_Inicios);
+    printf("\nCantidad de inicios: %i",C_Inicios);
     *c_inicios = C_Inicios;
-    printf("LO que ocupo: %i",*c_inicios);
+    printf("\nLo que ocupo: %i",*c_inicios);
 }
 
 void reserva_espacio_inicios(int *arreglo1,int *arreglo2)
