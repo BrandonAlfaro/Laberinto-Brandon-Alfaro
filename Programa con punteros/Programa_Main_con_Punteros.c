@@ -5,6 +5,7 @@
 #include "2espacio_matriz.h"
 #include "3txt_a_arreglo.h"
 #include "4inicios_laberinto.h"
+#include "5recorrido_laberinto.h"
 
 int c_filas,c_columnas;
 int espacio_de_juego [];
@@ -28,14 +29,11 @@ int main()
 
     cantidad_inicios(&espacio_de_juego,c_filas,c_columnas,&cantidad_de_inicios);
 
-    // No sirven las dos ultimas funciones de "inicios_laberinto.h"
-
     reserva_espacio_inicios(&inicios_x,&inicios_y);
     
     posicion_inicios(&espacio_de_juego,&inicios_x,&inicios_y,c_filas,c_columnas);
 
     printf("\n%i", cantidad_de_inicios);
-
 
     return 0;
 }
