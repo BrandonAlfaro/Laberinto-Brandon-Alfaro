@@ -129,11 +129,8 @@ void busca_inicios_laberinto()
 void recorre_camino(int posicion_anterior_F, int posicion_anterior_C, int posicion_actual_F, int posicion_actual_C)
 {
     // imprime la coordenadas de la posicion anterior y actual
-    printf("\n%i",posicion_anterior_F);
-    printf("\n%i",posicion_anterior_C);
-    printf("\n%i",posicion_actual_F);
-    printf("\n%i",posicion_actual_C);
-    printf("\n");
+    // printf("\n\nPosicion anterior del recorrido (x,y): %i, %i", posicion_anterior_F, posicion_anterior_C);
+    // printf("\nPosicion actual del recorrido (x,y): %i, %i", posicion_actual_F, posicion_actual_C);
 
     // Recorre camino
     if (espacio_de_juego[posicion_actual_F - 1][posicion_actual_C] == 1 && (posicion_actual_F - 1) >= 0 && (posicion_actual_F - 1) != posicion_anterior_F) // Posicion Arriba
@@ -156,22 +153,22 @@ void recorre_camino(int posicion_anterior_F, int posicion_anterior_C, int posici
     // Si encuentra la solucion se ejecuta algun if
     if (espacio_de_juego[posicion_actual_F + 1][posicion_actual_C] == 2 && solucion_encontrada == 0) // Posicion Arriba
     {
-        printf("\nLa solucion fue encontrada en la posicion: %i,%i", posicion_actual_F + 1, posicion_actual_C);
+        printf("\n\nLa solucion fue encontrada en la posicion (x,y): %i,%i", posicion_actual_F + 1, posicion_actual_C);
         solucion_encontrada = 1;
     }
     if (espacio_de_juego[posicion_actual_F - 1][posicion_actual_C] == 2 && solucion_encontrada == 0) // Posicion Izquierda
     {
-        printf("\nLa solucion fue encontrada en la posicion: %i,%i", posicion_actual_F - 1, posicion_actual_C);
+        printf("\n\nLa solucion fue encontrada en la posicion (x,y): %i,%i", posicion_actual_F - 1, posicion_actual_C);
         solucion_encontrada = 1;
     }
     if (espacio_de_juego[posicion_actual_F][posicion_actual_C + 1] == 2 && solucion_encontrada == 0) //Posicion Abajo
     {
-        printf("\nLa solucion fue encontrada en la posicion: %i,%i", posicion_actual_F, posicion_actual_C + 1);
+        printf("\n\nLa solucion fue encontrada en la posicion (x,y): %i,%i", posicion_actual_F, posicion_actual_C + 1);
         solucion_encontrada = 1;
     }
     if (espacio_de_juego[posicion_actual_F][posicion_actual_C - 1] == 2 && solucion_encontrada == 0) // Posicion Derecha
     {
-        printf("\nLa solucion fue encontrada en la posicion: %i,%i", posicion_actual_F, posicion_actual_C - 1);
+        printf("\n\nLa solucion fue encontrada en la posicion (x,y): %i,%i", posicion_actual_F, posicion_actual_C - 1);
         solucion_encontrada = 1;
     }
 }
@@ -189,7 +186,7 @@ void empieza_recorrido_con_inicios()
     // Imprime mensaje si la solucion no fue encontrada
     if(solucion_encontrada == 0)
     {
-        printf("La solucion no fue encontrada");
+        printf("\n\nNo hay solucion");
     }
 }
 
@@ -200,12 +197,16 @@ int main()
     dimensiona_la_matriz();
     matriz_txt_a_arreglo();
     busca_inicios_laberinto();
-    printf("\n%i", cantidad_inicios);
 
-    for (int i = 0; i < cantidad_inicios; i++)
-    {
-        printf("\n%i , %i",inicios[0][i], inicios[1][i]);
-    }
+    // Imprime la cantidad de inicios
+    // printf("\n\nCantidad de inicios: %i", cantidad_inicios);
+
+    // Imprime las posiciones de los inicios
+    // for (int i = 0; i < cantidad_inicios; i++)
+    // {
+    //     printf("\nUn inicio esta en la posicion (x,y): %i , %i",inicios[0][i], inicios[1][i]);
+    // }
+
     empieza_recorrido_con_inicios();
     return 0;
 }
